@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load staticfiles %}
+<!-- TODO -->
+<!-- Insert play button image -->
+
+{% if user.is_authenticated %}
+<div id="start">
+  <a href = "/hangman/hangman" ><img src = "{% static 'start-button.jpg' %}" height ="50" width = "50" /></a>
+</div>
+{% else %}
+<body background = "{% static 'Hangman.png' %}"></body>
+<h1 style="color:white; text-align:center"> Please Sign Up or Login </h1>
+{% endif %}
+{% if hangman.display %}
+<div id="hangimg" >
+  <img src = "{{ hangman.image }}" height ="200" width = "200"></img>
+</div>
+
+
+<h1 id = "display">{{ hangman.display }} </h1>
+
+
+<form action = "/hangman/hangman" id = "buttonvalues" method = "POST">
+  <div>
+    <input type = "hidden" name="hangman_id" value = "{{hangman.hangman_id}}" />
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="m" >M</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="l" >L</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="k" >K</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="j" >J</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="i" >I</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="h" >H</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="g" >G</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="f" >F</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="e" >E</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="d" >D</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="c" >C</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="b" >B</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="a" >A</button>
+  </div>
+  <br />
+  <div>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="z" >Z</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="y" >Y</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="x" >X</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="w" >W</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="v" >V</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="u" >U</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="t" >T</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="s" >S</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="r" >R</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="q" >Q</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="p" >P</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="o" >O</button>
+    <button class="button_base b01_simple_rollover" type = "submit" name = "buttonvalue" value ="n" >N</button>
+  </div>
+  {% csrf_token %}
+</form>
+
+<div id="guess">
+    <h style="font-size: 2em"> Clicked letters : </h>
+    {% for letter in guessed %}
+        <button class="btn btn-primary">{{ letter }}</button>
+    {% endfor %}
+</div>
+{% if hangman.status == 'win' %}
+    <div class="col-md-3"></div>
+    <div class="alert alert-success col-md-6" id="result">
+        <strong>You won!</strong> Correct answer is <strong>"{{ hangman.answer }}"</strong>.
+    </div>
+    <div class="col-md-3"></div>
+
+{% elif hangman.status == 'lose' %}
+    <div class="col-md-3"></div>
+    <div class="alert alert-danger col-md-6" id="result">
+        <strong>You lost.</strong> Correct answer is <strong>"{{ hangman.answer }}"</strong>.
+    </div>
+    <div class="col-md-3"></div>
+
+{% endif %}
+
+{% endif %}
+
+{% endblock %}
